@@ -1,0 +1,133 @@
+/* ===== La Tóxica - Tema elegante ===== */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+:root {
+    --toxica-bg: #141414;
+    --toxica-bg-alt: #1e1a17;
+    --toxica-gold: #d4a017;
+    --toxica-gold-light: #f2c94c;
+    --toxica-text: #f5f1ea;
+    --toxica-muted: #b8b0a4;
+    --toxica-card: rgba(30, 26, 23, 0.85);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--toxica-text);
+    background-color: var(--toxica-bg);
+    background-image: linear-gradient(rgba(20, 20, 20, 0.68), rgba(20, 20, 20, 0.68)), url('https://files.manuscdn.com/search-media/310519663909443660/OvFA6ZlJEUBG9AbXU4SjRp/6Qc5NEvNFfMpN5dZgB2PrS.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+h1, h2, h3, .navbar-brand {
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 0.5px;
+}
+
+h1 {
+    color: var(--toxica-gold-light);
+}
+
+.navbar {
+    background: linear-gradient(90deg, #0f0f0f, #201a15) !important;
+    border-bottom: 1px solid rgba(212, 160, 23, 0.35);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.navbar-brand {
+    color: var(--toxica-gold-light) !important;
+    font-weight: 700;
+}
+
+.nav-link {
+    color: var(--toxica-text) !important;
+}
+
+    .nav-link:hover {
+        color: var(--toxica-gold-light) !important;
+    }
+
+.table {
+    background: var(--toxica-card);
+    color: var(--toxica-text);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+    .table thead {
+        background: linear-gradient(90deg, #201a15, #141414);
+        color: var(--toxica-gold-light);
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(212, 160, 23, 0.08);
+    }
+
+.btn-primary {
+    background-color: var(--toxica-gold);
+    border-color: var(--toxica-gold);
+    color: #141414;
+    font-weight: 500;
+}
+
+    .btn-primary:hover {
+        background-color: var(--toxica-gold-light);
+        border-color: var(--toxica-gold-light);
+    }
+
+/* ===== Página de login ===== */
+.login-page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    background: rgba(20, 18, 16, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 160, 23, 0.35);
+    border-radius: 16px;
+    padding: 48px 40px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+    .login-card h1 {
+        font-size: 1.8rem;
+        text-align: center;
+        margin-bottom: 28px;
+    }
+
+    .login-card label {
+        color: var(--toxica-muted);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .login-card .form-control {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: var(--toxica-text);
+        border-radius: 8px;
+    }
+
+        .login-card .form-control:focus {
+            border-color: var(--toxica-gold);
+            box-shadow: 0 0 0 0.2rem rgba(212, 160, 23, 0.25);
+        }
+
+    .login-card .btn-primary {
+        width: 100%;
+        margin-top: 12px;
+        padding: 10px;
+        border-radius: 8px;
+    }

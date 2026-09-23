@@ -1,0 +1,15 @@
+@model LaToxicaCRUD.Models.Categoria
+
+<h1>Editar Categoría</h1>
+
+<form asp-action="Edit" method="post" class="col-md-6">
+    <input type="hidden" asp-for="IdCategoria" />
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

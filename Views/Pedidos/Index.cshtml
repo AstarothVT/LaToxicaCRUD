@@ -1,0 +1,29 @@
+@model IEnumerable<LaToxicaCRUD.Models.Pedido>
+
+<h1>Pedidos</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Nuevo Pedido</a>
+</p>
+
+@foreach (var pedido in Model)
+{
+    <div class="card mb-3">
+        <div class="card-header d-flex justify-content-between">
+            <span><strong>Pedido #@pedido.IdPedido</strong> - @pedido.Cliente</span>
+            <span>@pedido.Fecha.ToString("dd/MM/yyyy HH:mm")</span>
+        </div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush mb-2">
+                @foreach (var d in pedido.Detalles)
+                {
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>@(d.Plato != null ? d.Plato.Nombre : "-") x @d.Cantidad</span>
+                        <span>S/ @d.Subtotal</span>
+                    </li>
+                }
+            </ul>
+            <p class="text-end mb-0"><strong>Total: S/ @pedido.Total</strong></p>
+        </div>
+    </div>
+}

@@ -1,0 +1,27 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<div class="login-page-wrapper">
+    <div class="login-card">
+        <h1>La Tóxica - Iniciar sesión</h1>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger">@ViewBag.Error</div>
+        }
+
+        <form asp-controller="Account" asp-action="Login" method="post">
+            <div class="mb-3">
+                <label class="form-label">Usuario</label>
+                <input type="text" name="usuario" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                <input type="password" name="password" class="form-control" required />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+@model LaToxicaCRUD.Models.Categoria
+
+<h1>Eliminar Categoría</h1>
+
+<div class="alert alert-warning col-md-6">
+    <p>¿Seguro que deseas eliminar la categoría <strong>@Model.Nombre</strong>?</p>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="IdCategoria" />
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

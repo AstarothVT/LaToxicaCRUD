@@ -1,0 +1,38 @@
+@model IEnumerable<LaToxicaCRUD.Models.Plato>
+
+<h1>Menú - La Tóxica</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Nuevo Plato</a>
+</p>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Categoría</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var plato in Model)
+        {
+            <tr>
+                <td>@plato.IdPlato</td>
+                <td>@plato.Nombre</td>
+                <td>S/ @plato.Precio</td>
+                <td>@plato.Stock</td>
+                <td>@(plato.Categoria != null ? plato.Categoria.Nombre : "-")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@plato.IdPlato" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@plato.IdPlato" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

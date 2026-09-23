@@ -1,0 +1,45 @@
+@model LaToxicaCRUD.Models.Plato
+
+<h1>Editar Plato</h1>
+
+<form asp-action="Edit" method="post" class="col-md-6">
+    <input type="hidden" asp-for="IdPlato" />
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Descripción</label>
+        <input asp-for="Descripcion" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Precio</label>
+        <input asp-for="Precio" class="form-control" />
+        <span asp-validation-for="Precio" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Stock</label>
+        <input asp-for="Stock" class="form-control" />
+        <span asp-validation-for="Stock" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Categoría</label>
+        <select asp-for="CategoriaId" class="form-select">
+            @foreach (var c in (List<LaToxicaCRUD.Models.Categoria>)ViewBag.Categorias)
+            {
+                <option value="@c.IdCategoria">@c.Nombre</option>
+            }
+        </select>
+        <span asp-validation-for="CategoriaId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

@@ -1,0 +1,41 @@
+@model LaToxicaCRUD.Models.Pedido
+
+<h1>Nuevo Pedido</h1>
+
+<form asp-action="Create" method="post" class="col-md-8">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label class="form-label">Cliente</label>
+        <input type="text" name="cliente" class="form-control" required />
+    </div>
+
+    <h5>Platos</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Plato</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var p in (List<LaToxicaCRUD.Models.Plato>)ViewBag.Platos)
+        {
+            <tr>
+                <td>
+                    @p.Nombre
+                    <input type="hidden" name="platoId" value="@p.IdPlato" />
+                </td>
+                <td>S/ @p.Precio</td>
+                <td>
+                    <input type="number" name="cantidad" class="form-control" value="0" min="0" style="width:100px" />
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Registrar Pedido</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
