@@ -1,32 +1,59 @@
+@{
+    // Las páginas públicas ponen ViewData["Publico"] = true para usar todo el ancho
+    var publico = ViewData["Publico"] as bool? == true;
+}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>La Tóxica - Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="La Tóxica: hamburguesas y salchipapas artesanales." />
+    <meta name="theme-color" content="#0f0f0f" />
+    <title>@ViewData["Title"] - La Tóxica</title>
+
+    <link rel="icon" href="~/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="~/img/icono-192.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;600;800&display=swap" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/toxica-theme.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <script>document.documentElement.classList.add('js');</script>
+    <noscript><style>[data-reveal]{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
-    @if (User.Identity != null && User.Identity.IsAuthenticated)
-    {
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="/Platos">La Tóxica</a>
-                <div class="navbar-nav me-auto">
-                    <a class="nav-link" asp-controller="Platos" asp-action="Index">Platos</a>
-                    <a class="nav-link" asp-controller="Categorias" asp-action="Index">Categorías</a>
-                    <a class="nav-link" asp-controller="Pedidos" asp-action="Index">Pedidos</a>
-                </div>
-                <div class="d-flex align-items-center">
-                    <span class="text-white me-3">@User.Identity.Name</span>
-                    <a class="btn btn-outline-light btn-sm" asp-controller="Account" asp-action="Logout">Salir</a>
+    <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+    <header>
+        <partial name="_Navbar" />
+    </header>
+
+    <main id="contenido" role="main" class="flex-grow-1">
+        <div class="container pt-3">
+            <partial name="_Mensajes" />
+        </div>
+
+        @if (publico)
+        {
+            @RenderBody()
+        }
+        else
+        {
+            <div class="container my-4">
+                <div class="panel-admin">
+                    @RenderBody()
                 </div>
             </div>
-        </nav>
-    }
-    <div class="container mt-4">
-        @RenderBody()
-    </div>
+        }
+    </main>
+
+    <partial name="_Footer" />
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

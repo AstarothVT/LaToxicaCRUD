@@ -1,0 +1,24 @@
+<footer class="footer-toxica">
+    <div class="container">
+        <div class="row gy-3 align-items-center">
+            <div class="col-12 col-md-4 d-flex align-items-center">
+                <img src="~/img/icono-192.png" alt="" width="44" height="44" class="me-2 rounded-circle" loading="lazy" />
+                <div>
+                    <strong class="marca fs-4">LA TÓXICA</strong><br />
+                    <small>Hamburguesas y salchipapas artesanales</small>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <ul class="list-inline mb-0 footer-links">
+                    <li class="list-inline-item"><a asp-controller="Home" asp-action="Index">Inicio</a></li>
+                    <li class="list-inline-item"><a asp-controller="Home" asp-action="Carta">Carta</a></li>
+                    <li class="list-inline-item"><a asp-controller="Home" asp-action="Tipicos">Platos típicos</a></li>
+                    <li class="list-inline-item"><a asp-controller="Account" asp-action="Login">Administración</a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-md-4 text-md-end">
+                <small>&copy; @DateTime.Now.Year La Tóxica · Aplicaciones Web (SISE)<br />Hecho con ASP.NET Core MVC</small>
+            </div>
+        </div>
+    </div>
+</footer>

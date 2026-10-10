@@ -1,14 +1,19 @@
-@model LaToxicaCRUD.Models.Categoria
+@model Categoria
+@{
+    ViewData["Title"] = "Nueva categoría";
+}
 
-<h1>Nueva Categoría</h1>
+<h1 class="h2">Nueva categoría</h1>
 
-<form asp-action="Create" method="post" class="col-md-6">
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="mb-3">
-        <label class="form-label">Nombre</label>
-        <input asp-for="Nombre" class="form-control" />
-        <span asp-validation-for="Nombre" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Guardar</button>
+<form asp-action="Create" method="post" novalidate>
+    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+    <partial name="_Form" model="Model" />
+
+    <button type="submit" class="btn btn-success">Guardar</button>
     <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

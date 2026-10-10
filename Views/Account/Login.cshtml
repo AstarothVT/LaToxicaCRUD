@@ -1,27 +1,58 @@
+@model LoginViewModel
 @{
-    Layout = "_Layout";
-    ViewData["Title"] = "Iniciar sesión";
+    ViewData["Title"] = "Ingresar";
+    ViewData["Publico"] = true;
 }
 
-<div class="login-page-wrapper">
-    <div class="login-card">
-        <h1>La Tóxica - Iniciar sesión</h1>
+<section class="login-fondo">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-7">
+                <div class="login-caja" data-reveal>
+                    <div class="login-lado d-none d-md-flex">
+                        <img src="~/img/hamburguesa-dibujo.jpg" width="220" height="220" alt="Dibujo de una hamburguesa" />
+                        <p class="marca">LA TÓXICA</p>
+                        <small>Panel de administración</small>
+                    </div>
+                    <div class="login-form">
+                        <h1 class="h3 mb-1">Ingresar</h1>
+                        <p class="text-muted">Entra para administrar platos, categorías y reportes.</p>
 
-        @if (ViewBag.Error != null)
-        {
-            <div class="alert alert-danger">@ViewBag.Error</div>
-        }
+                        <form asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" novalidate>
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2" role="alert"></div>
 
-        <form asp-controller="Account" asp-action="Login" method="post">
-            <div class="mb-3">
-                <label class="form-label">Usuario</label>
-                <input type="text" name="usuario" class="form-control" required />
+                            <div class="mb-3">
+                                <label asp-for="Usuario" class="form-label"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person-fill" aria-hidden="true"></i></span>
+                                    <input asp-for="Usuario" class="form-control" autocomplete="username" autofocus aria-describedby="err-usuario" />
+                                </div>
+                                <span asp-validation-for="Usuario" id="err-usuario" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Clave" class="form-label"></label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-lock-fill" aria-hidden="true"></i></span>
+                                    <input asp-for="Clave" class="form-control" autocomplete="current-password" aria-describedby="err-clave" />
+                                    <button type="button" class="btn btn-outline-secondary" data-mostrar-clave="Clave" aria-label="Mostrar u ocultar la contraseña">
+                                        <i class="bi bi-eye-fill" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <span asp-validation-for="Clave" id="err-clave" class="text-danger"></span>
+                            </div>
+
+                            <button type="submit" class="btn btn-toxica w-100 btn-lg">
+                                <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i> Entrar
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Contraseña</label>
-                <input type="password" name="password" class="form-control" required />
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Ingresar</button>
-        </form>
+        </div>
     </div>
-</div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

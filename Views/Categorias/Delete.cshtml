@@ -1,12 +1,31 @@
-@model LaToxicaCRUD.Models.Categoria
+@model Categoria
+@{
+    ViewData["Title"] = "Eliminar categoría";
+}
 
-<h1>Eliminar Categoría</h1>
+<h1 class="h2">Eliminar categoría</h1>
 
-<div class="alert alert-warning col-md-6">
-    <p>¿Seguro que deseas eliminar la categoría <strong>@Model.Nombre</strong>?</p>
-    <form asp-action="Delete" method="post">
-        <input type="hidden" asp-for="IdCategoria" />
-        <button type="submit" class="btn btn-danger">Eliminar</button>
-        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-    </form>
+<div class="alert alert-warning" role="alert">
+    ¿Está seguro de eliminar esta categoría? Esta acción no se puede deshacer.
 </div>
+
+@if (Model.Platos.Any())
+{
+    <div class="alert alert-danger" role="alert">
+        Esta categoría tiene @Model.Platos.Count platos registrados, por eso no se podrá eliminar hasta que los muevas o los borres.
+    </div>
+}
+
+<dl class="row">
+    <dt class="col-sm-3">Nombre</dt>
+    <dd class="col-sm-9">@Model.Nombre</dd>
+
+    <dt class="col-sm-3">Descripción</dt>
+    <dd class="col-sm-9">@Model.Descripcion</dd>
+</dl>
+
+<form asp-action="Delete" asp-route-id="@Model.IdCategoria" method="post">
+    <input type="hidden" asp-for="IdCategoria" />
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

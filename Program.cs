@@ -1,10 +1,14 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using LaToxicaCRUD.Data;
-using LaToxicaCRUD.Data.Repositories;
 using LaToxicaCRUD.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Usa punto como separador decimal (precios como 12.50)
+var cultura = System.Globalization.CultureInfo.InvariantCulture;
+System.Globalization.CultureInfo.DefaultThreadCurrentCulture = cultura;
+System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = cultura;
 
 builder.Services.AddControllersWithViews();
 
@@ -13,28 +17,28 @@ builder.Services.AddDbContext<ToxicaContext>(options =>
         builder.Configuration.GetConnectionString("ConexionToxica")
     ));
 
-// Autenticacion basica con cookies (requisito de seguridad minima)
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
+builder.Services.AddScoped<ReporteService>();
+
+// Login con cookies: protege Platos, Categorías y Reportes
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(opciones =>
     {
-        options.LoginPath = "/Account/Login";
-        options.AccessDeniedPath = "/Account/Login";
+        opciones.LoginPath = "/Account/Login";
+        opciones.AccessDeniedPath = "/Account/Login";
+        opciones.ExpireTimeSpan = TimeSpan.FromHours(2);
+        opciones.SlidingExpiration = true;
     });
 
-// Capa de acceso a datos (repositorios)
-builder.Services.AddScoped<IPlatoRepository, PlatoRepository>();
-builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
-builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-
-// Capa de negocio (servicios)
-builder.Services.AddSingleton<ILogService, LogService>();
-builder.Services.AddScoped<IPlatoService, PlatoService>();
-builder.Services.AddScoped<ICategoriaService, CategoriaService>();
-builder.Services.AddScoped<IPedidoService, PedidoService>();
-builder.Services.AddScoped<IUsuarioService, UsuarioService>();
-
 var app = builder.Build();
+
+// Crea la base de datos con las migraciones y carga el menú inicial
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ToxicaContext>();
+    context.Database.Migrate();
+    DbInitializer.Sembrar(context);
+}
 
 if (!app.Environment.IsDevelopment())
 {
@@ -52,6 +56,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Platos}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

@@ -1,0 +1,67 @@
+@{
+    var controlador = ViewContext.RouteData.Values["controller"]?.ToString();
+    var accion = ViewContext.RouteData.Values["action"]?.ToString();
+    var autenticado = User.Identity != null && User.Identity.IsAuthenticated;
+
+    string Activo(bool condicion) => condicion ? "active" : "";
+    string Pagina(bool condicion) => condicion ? "page" : null;
+}
+<nav class="navbar navbar-expand-lg navbar-toxica navbar-dark sticky-top" aria-label="Navegación principal">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" asp-controller="Home" asp-action="Index">
+            <img src="~/img/icono-192.png" alt="Logo de La Tóxica" width="38" height="38" class="me-2 rounded-circle" />
+            <span class="marca">LA TÓXICA</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
+                aria-controls="menuPrincipal" aria-expanded="false" aria-label="Mostrar u ocultar el menú">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="menuPrincipal">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+                <li class="nav-item">
+                    <a class="nav-link @Activo(controlador == "Home" && accion == "Index")" asp-controller="Home" asp-action="Index"
+                       aria-current="@Pagina(controlador == "Home" && accion == "Index")"><i class="bi bi-house-fill" aria-hidden="true"></i> Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @Activo(controlador == "Home" && accion == "Carta")" asp-controller="Home" asp-action="Carta"
+                       aria-current="@Pagina(controlador == "Home" && accion == "Carta")"><i class="bi bi-journal-richtext" aria-hidden="true"></i> Carta</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @Activo(controlador == "Home" && accion == "Tipicos")" asp-controller="Home" asp-action="Tipicos"
+                       aria-current="@Pagina(controlador == "Home" && accion == "Tipicos")"><i class="bi bi-stars" aria-hidden="true"></i> Platos típicos</a>
+                </li>
+
+                @if (autenticado)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @Activo(controlador == "Platos")" asp-controller="Platos" asp-action="Index"
+                           aria-current="@Pagina(controlador == "Platos")"><i class="bi bi-egg-fried" aria-hidden="true"></i> Platos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @Activo(controlador == "Categorias")" asp-controller="Categorias" asp-action="Index"
+                           aria-current="@Pagina(controlador == "Categorias")"><i class="bi bi-tags-fill" aria-hidden="true"></i> Categorías</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @Activo(controlador == "Reportes")" asp-controller="Reportes" asp-action="Platos"
+                           aria-current="@Pagina(controlador == "Reportes")"><i class="bi bi-bar-chart-fill" aria-hidden="true"></i> Reportes</a>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-light mt-2 mt-lg-0">
+                                <i class="bi bi-box-arrow-right" aria-hidden="true"></i> Salir (@User.Identity.Name)
+                            </button>
+                        </form>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-sm btn-toxica mt-2 mt-lg-0" asp-controller="Account" asp-action="Login">
+                            <i class="bi bi-person-circle" aria-hidden="true"></i> Ingresar
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>

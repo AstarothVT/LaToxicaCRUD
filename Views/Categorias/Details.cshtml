@@ -1,0 +1,38 @@
+@model Categoria
+@{
+    ViewData["Title"] = "Detalle de la categoría";
+}
+
+<h1 class="h2">Detalle de la categoría</h1>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Nombre</dt>
+            <dd class="col-sm-9">@Model.Nombre</dd>
+
+            <dt class="col-sm-3">Descripción</dt>
+            <dd class="col-sm-9">@(string.IsNullOrWhiteSpace(Model.Descripcion) ? "Sin descripción" : Model.Descripcion)</dd>
+
+            <dt class="col-sm-3">Platos</dt>
+            <dd class="col-sm-9">
+                @if (Model.Platos.Any())
+                {
+                    <ul class="mb-0">
+                        @foreach (var plato in Model.Platos.OrderBy(p => p.Nombre))
+                        {
+                            <li>@plato.Nombre - S/ @plato.Precio.ToString("N2")</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <span>Esta categoría todavía no tiene platos.</span>
+                }
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<a asp-action="Edit" asp-route-id="@Model.IdCategoria" class="btn btn-primary">Editar</a>
+<a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>

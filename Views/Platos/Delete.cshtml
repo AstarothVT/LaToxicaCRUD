@@ -1,21 +1,30 @@
-@model LaToxicaCRUD.Models.Plato
+@model Plato
+@{
+    ViewData["Title"] = "Eliminar plato";
+}
 
-<h1>Eliminar Plato</h1>
+<h1 class="h2">Eliminar plato</h1>
 
-<div class="alert alert-warning col-md-6">
-    <p>¿Seguro que deseas eliminar el siguiente plato?</p>
-    <dl class="row">
-        <dt class="col-sm-3">Nombre</dt>
-        <dd class="col-sm-9">@Model.Nombre</dd>
-        <dt class="col-sm-3">Precio</dt>
-        <dd class="col-sm-9">S/ @Model.Precio</dd>
-        <dt class="col-sm-3">Categoría</dt>
-        <dd class="col-sm-9">@(Model.Categoria != null ? Model.Categoria.Nombre : "-")</dd>
-    </dl>
-
-    <form asp-action="Delete" method="post">
-        <input type="hidden" asp-for="IdPlato" />
-        <button type="submit" class="btn btn-danger">Eliminar</button>
-        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-    </form>
+<div class="alert alert-warning" role="alert">
+    ¿Está seguro de eliminar este plato? Esta acción no se puede deshacer.
 </div>
+
+<dl class="row">
+    <dt class="col-sm-3">Nombre</dt>
+    <dd class="col-sm-9">@Model.Nombre</dd>
+
+    <dt class="col-sm-3">Categoría</dt>
+    <dd class="col-sm-9">@Model.Categoria.Nombre</dd>
+
+    <dt class="col-sm-3">Precio</dt>
+    <dd class="col-sm-9">S/ @Model.Precio.ToString("N2")</dd>
+
+    <dt class="col-sm-3">Stock</dt>
+    <dd class="col-sm-9">@Model.Stock</dd>
+</dl>
+
+<form asp-action="Delete" asp-route-id="@Model.IdPlato" method="post">
+    <input type="hidden" asp-for="IdPlato" />
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

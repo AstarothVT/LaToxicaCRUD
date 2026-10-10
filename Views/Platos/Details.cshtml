@@ -1,0 +1,32 @@
+@model Plato
+@{
+    ViewData["Title"] = "Detalle del plato";
+}
+
+<h1 class="h2">Detalle del plato</h1>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <img src="@Url.ImagenSrc(Model.ImagenUrl)" alt="Imagen de @Model.Nombre" class="detalle-img mb-3" width="400" height="300"
+             onerror="this.onerror=null;this.src='@Url.Content("~/img/hamburguesa-dibujo.jpg")'" />
+        <dl class="row mb-0">
+            <dt class="col-sm-3">Nombre</dt>
+            <dd class="col-sm-9">@Model.Nombre</dd>
+
+            <dt class="col-sm-3">Descripción</dt>
+            <dd class="col-sm-9">@(string.IsNullOrWhiteSpace(Model.Descripcion) ? "Sin descripción" : Model.Descripcion)</dd>
+
+            <dt class="col-sm-3">Categoría</dt>
+            <dd class="col-sm-9">@Model.Categoria.Nombre</dd>
+
+            <dt class="col-sm-3">Precio</dt>
+            <dd class="col-sm-9">S/ @Model.Precio.ToString("N2")</dd>
+
+            <dt class="col-sm-3">Stock</dt>
+            <dd class="col-sm-9">@Model.Stock unidades</dd>
+        </dl>
+    </div>
+</div>
+
+<a asp-action="Edit" asp-route-id="@Model.IdPlato" class="btn btn-primary">Editar</a>
+<a asp-action="Index" class="btn btn-secondary">Volver a la lista</a>

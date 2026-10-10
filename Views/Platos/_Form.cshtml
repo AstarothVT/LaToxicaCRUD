@@ -1,0 +1,49 @@
+@model Plato
+
+<input type="hidden" asp-for="IdPlato" />
+
+<div class="mb-3">
+    <label asp-for="Nombre" class="form-label"></label>
+    <input asp-for="Nombre" class="form-control" maxlength="100" aria-describedby="err-nombre" />
+    <span asp-validation-for="Nombre" id="err-nombre" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Descripcion" class="form-label"></label>
+    <input asp-for="Descripcion" class="form-control" maxlength="200" aria-describedby="err-descripcion" />
+    <span asp-validation-for="Descripcion" id="err-descripcion" class="text-danger"></span>
+</div>
+
+<div class="row">
+    <div class="col-12 col-md-6 mb-3">
+        <label asp-for="Precio" class="form-label">Precio (S/)</label>
+        <input asp-for="Precio" class="form-control" inputmode="decimal" aria-describedby="err-precio" />
+        <span asp-validation-for="Precio" id="err-precio" class="text-danger"></span>
+    </div>
+
+    <div class="col-12 col-md-6 mb-3">
+        <label asp-for="Stock" class="form-label"></label>
+        <input asp-for="Stock" class="form-control" inputmode="numeric" aria-describedby="err-stock" />
+        <span asp-validation-for="Stock" id="err-stock" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="mb-3">
+    <label asp-for="ImagenUrl" class="form-label"></label>
+    <input asp-for="ImagenUrl" class="form-control" maxlength="300" placeholder="https://... o /img/hamburguesa.jpg" aria-describedby="ayuda-imagen err-imagen" />
+    <div id="ayuda-imagen" class="form-text">Pega el enlace de una imagen (https://...) o usa una de /img. Si lo dejas vacío se usa una imagen por defecto.</div>
+    <span asp-validation-for="ImagenUrl" id="err-imagen" class="text-danger"></span>
+    <div class="mt-2">
+        <img id="vistaPrevia" src="@Url.ImagenSrc(Model.ImagenUrl)" alt="Vista previa de la imagen del plato"
+             class="vista-previa" width="160" height="120"
+             onerror="this.onerror=null;this.src='@Url.Content("~/img/hamburguesa-dibujo.jpg")'" />
+    </div>
+</div>
+
+<div class="mb-3">
+    <label asp-for="CategoriaId" class="form-label"></label>
+    <select asp-for="CategoriaId" asp-items="(SelectList)ViewBag.Categorias" class="form-select" aria-describedby="err-categoria">
+        <option value="0">-- Seleccione una categoría --</option>
+    </select>
+    <span asp-validation-for="CategoriaId" id="err-categoria" class="text-danger"></span>
+</div>

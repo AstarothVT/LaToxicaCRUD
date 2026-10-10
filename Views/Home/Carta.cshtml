@@ -1,0 +1,65 @@
+@model IEnumerable<Categoria>
+@{
+    ViewData["Title"] = "Carta";
+    ViewData["Publico"] = true;
+}
+
+<section class="cabecera-pagina">
+    <div class="container">
+        <h1 class="seccion-titulo mb-1">Nuestra carta</h1>
+        <p class="mb-0">Todo el menú de La Tóxica, ordenado por categoría.</p>
+    </div>
+</section>
+
+<section class="seccion pt-4">
+    <div class="container">
+        <div class="filtros" role="group" aria-label="Filtrar la carta por categoría">
+            <button type="button" class="chip-filtro activo" data-filtro="todas">Todas</button>
+            @foreach (var categoria in Model)
+            {
+                <button type="button" class="chip-filtro" data-filtro="cat-@categoria.IdCategoria">@categoria.Nombre</button>
+            }
+        </div>
+
+        @foreach (var categoria in Model)
+        {
+            <div class="grupo-carta" data-cat="cat-@categoria.IdCategoria">
+                <div class="grupo-titulo" data-reveal>
+                    <h2>@categoria.Nombre</h2>
+                    @if (!string.IsNullOrWhiteSpace(categoria.Descripcion))
+                    {
+                        <span>@categoria.Descripcion</span>
+                    }
+                </div>
+
+                <div class="row g-3 g-md-4">
+                    @{ var n = 0; }
+                    @foreach (var plato in categoria.Platos.OrderBy(p => p.Nombre))
+                    {
+                        <div class="col-12 col-sm-6 col-lg-4 col-xl-3" data-reveal style="--i:@(n++ % 4)">
+                            <article class="tarjeta-plato h-100">
+                                <div class="tarjeta-img">
+                                    <img src="@Url.ImagenSrc(plato.ImagenUrl)" alt="@plato.Nombre" width="400" height="300" loading="lazy"
+                                         onerror="this.onerror=null;this.src='@Url.Content("~/img/hamburguesa-dibujo.jpg")'" />
+                                    <span class="precio-chip">S/ @plato.Precio.ToString("N2")</span>
+                                    @if (plato.Stock == 0)
+                                    {
+                                        <span class="estado-chip agotado">Agotado</span>
+                                    }
+                                    else if (plato.Stock <= 10)
+                                    {
+                                        <span class="estado-chip poco">¡Últimas unidades!</span>
+                                    }
+                                </div>
+                                <div class="tarjeta-cuerpo">
+                                    <h3 class="plato-nombre">@plato.Nombre</h3>
+                                    <p class="plato-desc">@plato.Descripcion</p>
+                                </div>
+                            </article>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</section>

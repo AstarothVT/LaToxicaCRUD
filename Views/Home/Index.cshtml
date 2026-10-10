@@ -1,0 +1,117 @@
+@model IEnumerable<Plato>
+@{
+    ViewData["Title"] = "Inicio";
+    ViewData["Publico"] = true;
+}
+
+<!-- HERO -->
+<section class="hero" aria-labelledby="titulo-hero">
+    <div class="container">
+        <div class="row align-items-center gy-4">
+            <div class="col-12 col-lg-6 hero-texto">
+                <span class="etiqueta"><i class="bi bi-fire" aria-hidden="true"></i> Artesanales · Jugosas · Tóxicas</span>
+                <h1 id="titulo-hero" class="hero-titulo">Una mordida y <span class="resaltado">no hay vuelta atrás</span></h1>
+                <p class="hero-sub">Hamburguesas de 150 g y salchipapas cargadas hasta el borde. Mira la carta, elige tu favorita y pide sin miedo.</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a asp-controller="Home" asp-action="Carta" class="btn btn-toxica btn-lg"><i class="bi bi-journal-richtext" aria-hidden="true"></i> Ver la carta</a>
+                    <a asp-controller="Home" asp-action="Tipicos" class="btn btn-outline-light btn-lg"><i class="bi bi-stars" aria-hidden="true"></i> Platos típicos</a>
+                </div>
+                <dl class="hero-datos">
+                    <div><dt>Platos</dt><dd><span data-count="@ViewBag.TotalPlatos">@ViewBag.TotalPlatos</span></dd></div>
+                    <div><dt>Categorías</dt><dd><span data-count="@ViewBag.TotalCategorias">@ViewBag.TotalCategorias</span></dd></div>
+                    <div><dt>Carne</dt><dd>150 g</dd></div>
+                </dl>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="hero-imagen">
+                    <img class="hero-foto" src="~/img/hamburguesa.jpg" width="678" height="452"
+                         alt="Hamburguesa artesanal con queso, tomate, lechuga y papas fritas" fetchpriority="high" />
+                    <img class="hero-sticker" src="~/img/hamburguesa-dibujo.jpg" width="120" height="120"
+                         alt="Dibujo de una hamburguesa" loading="lazy" />
+                    <span class="hero-precio">Desde<br /><strong>S/ 15</strong></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FRANJA DE DATOS -->
+<section class="franja" aria-label="Lo que nos distingue">
+    <div class="container">
+        <ul class="franja-lista">
+            <li><span aria-hidden="true">🍔</span> 100% artesanal</li>
+            <li><span aria-hidden="true">🔥</span> Hechas al momento</li>
+            <li><span aria-hidden="true">🥩</span> Carne de 150 g</li>
+            <li><span aria-hidden="true">🌶️</span> Salsas de la casa</li>
+        </ul>
+    </div>
+</section>
+
+<!-- DESTACADOS -->
+<section class="seccion" aria-labelledby="titulo-destacados">
+    <div class="container">
+        <div class="seccion-cabecera" data-reveal>
+            <h2 id="titulo-destacados" class="seccion-titulo">Los más tóxicos</h2>
+            <p>Los platos más grandes y cargados de nuestra carta.</p>
+        </div>
+
+        <div class="row g-3 g-md-4">
+            @{
+                var n = 0;
+            }
+            @foreach (var plato in Model)
+            {
+                <div class="col-12 col-sm-6 col-lg-4" data-reveal style="--i:@(n++)">
+                    <article class="tarjeta-plato h-100">
+                        <div class="tarjeta-img">
+                            <img src="@Url.ImagenSrc(plato.ImagenUrl)" alt="@plato.Nombre" width="400" height="300" loading="lazy"
+                                 onerror="this.onerror=null;this.src='@Url.Content("~/img/hamburguesa-dibujo.jpg")'" />
+                            <span class="precio-chip">S/ @plato.Precio.ToString("N2")</span>
+                        </div>
+                        <div class="tarjeta-cuerpo">
+                            <span class="cat-chip">@plato.Categoria.Nombre</span>
+                            <h3 class="plato-nombre">@plato.Nombre</h3>
+                            <p class="plato-desc">@plato.Descripcion</p>
+                        </div>
+                    </article>
+                </div>
+            }
+        </div>
+
+        <div class="text-center mt-4" data-reveal>
+            <a asp-controller="Home" asp-action="Carta" class="btn btn-toxica btn-lg">Ver toda la carta <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</section>
+
+<!-- POR QUÉ -->
+<section class="seccion seccion-alt" aria-labelledby="titulo-porque">
+    <div class="container">
+        <div class="seccion-cabecera" data-reveal>
+            <h2 id="titulo-porque" class="seccion-titulo">¿Por qué La Tóxica?</h2>
+        </div>
+        <div class="row g-3 g-md-4">
+            <div class="col-12 col-md-4" data-reveal style="--i:0">
+                <div class="beneficio h-100">
+                    <i class="bi bi-fire" aria-hidden="true"></i>
+                    <h3>Hechas al momento</h3>
+                    <p>Cada hamburguesa se arma cuando la pides, calientita y jugosa.</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-4" data-reveal style="--i:1">
+                <div class="beneficio h-100">
+                    <i class="bi bi-heart-fill" aria-hidden="true"></i>
+                    <h3>Receta artesanal</h3>
+                    <p>Carne de 150 g y salsas de la casa. Nada de fórmulas industriales.</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-4" data-reveal style="--i:2">
+                <div class="beneficio h-100">
+                    <i class="bi bi-lightning-charge-fill" aria-hidden="true"></i>
+                    <h3>Porciones cargadas</h3>
+                    <p>Salchipapas para compartir (o para no compartir, tú decides).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,69 @@
+@{
+    ViewData["Title"] = "Platos típicos";
+    ViewData["Publico"] = true;
+
+    // (emoji, nombre, descripción, ingredientes)
+    var tipicos = new List<(string Emoji, string Nombre, string Texto, string Ingredientes)>
+    {
+        ("🍔", "Cheeseburger clásica", "La reina de la hamburguesería: carne a la parrilla con queso derretido.", "Pan, carne, queso cheddar, lechuga, tomate, cebolla"),
+        ("🍔", "Doble carne", "Para los que tienen mucha hambre: dos carnes y doble queso.", "Pan, 2 carnes, doble queso, salsa de la casa"),
+        ("🥓", "Bacon burger", "El toque ahumado del tocino crocante sobre la carne.", "Pan, carne, bacon, queso, salsa BBQ"),
+        ("🍍", "Hawaiana", "Dulce y salada a la vez, con piña a la plancha.", "Pan, carne, jamón, piña, queso"),
+        ("🍗", "Pollo crispy", "Pechuga empanizada y crocante, la alternativa a la carne.", "Pan, pollo frito, lechuga, mayonesa"),
+        ("🥗", "Veggie", "Hamburguesa de verduras o lentejas, ligera y con sabor.", "Pan, medallón vegetal, palta, tomate, lechuga"),
+        ("🍟", "Papas fritas", "El acompañante por excelencia: doradas, crocantes y con sal.", "Papa, aceite, sal"),
+        ("🧅", "Aros de cebolla", "Cebolla en rodajas empanizada y frita, ideal para compartir.", "Cebolla, harina, pan rallado"),
+        ("🌭", "Salchipapa", "El clásico peruano: salchicha frita sobre papas con salsas.", "Papas, salchicha, mayonesa, kétchup, ají"),
+        ("🥤", "Malteada", "Cremosa y fría, para terminar o acompañar la comida.", "Helado, leche, sabor a elección"),
+        ("🍦", "Helado o postre", "Un cierre dulce después de tanta hamburguesa.", "Helado, cobertura, galleta"),
+        ("🥫", "Salsas de la casa", "Las que hacen la diferencia: ají, mayonesa, BBQ y más.", "Según la receta de cada local")
+    };
+}
+
+<section class="cabecera-pagina">
+    <div class="container">
+        <h1 class="seccion-titulo mb-1">Platos típicos de una hamburguesería</h1>
+        <p class="mb-0">Lo que no puede faltar en la carta de un buen local de hamburguesas.</p>
+    </div>
+</section>
+
+<section class="seccion pt-4">
+    <div class="container">
+        <div class="row g-3 g-md-4 align-items-stretch mb-4">
+            <div class="col-12 col-md-6" data-reveal>
+                <figure class="figura-tipico h-100">
+                    <img src="~/img/hamburguesa.jpg" width="678" height="452" loading="lazy"
+                         alt="Hamburguesa con queso, tomate y lechuga acompañada de papas fritas" />
+                    <figcaption>Hamburguesa con papas: el combo de siempre.</figcaption>
+                </figure>
+            </div>
+            <div class="col-12 col-md-6" data-reveal style="--i:1">
+                <figure class="figura-tipico h-100">
+                    <img src="~/img/salchipapa.jpg" width="554" height="554" loading="lazy"
+                         alt="Plato de salchipapa con rodajas de salchicha y salsa sobre papas fritas" />
+                    <figcaption>Salchipapa: el favorito peruano.</figcaption>
+                </figure>
+            </div>
+        </div>
+
+        <div class="row g-3 g-md-4">
+            @for (var i = 0; i < tipicos.Count; i++)
+            {
+                var t = tipicos[i];
+                <div class="col-12 col-sm-6 col-lg-4" data-reveal style="--i:@(i % 3)">
+                    <article class="tipico h-100">
+                        <span class="tipico-emoji" aria-hidden="true">@t.Emoji</span>
+                        <h2 class="tipico-nombre">@t.Nombre</h2>
+                        <p>@t.Texto</p>
+                        <p class="tipico-ing"><strong>Lleva:</strong> @t.Ingredientes</p>
+                    </article>
+                </div>
+            }
+        </div>
+
+        <div class="text-center mt-5" data-reveal>
+            <p class="lead">¿Se te antojó? Mira lo que tenemos en La Tóxica.</p>
+            <a asp-controller="Home" asp-action="Carta" class="btn btn-toxica btn-lg">Ir a la carta <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</section>

@@ -1,57 +1,75 @@
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using LaToxicaCRUD.Services;
+using LaToxicaCRUD.Models;
 
 namespace LaToxicaCRUD.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IUsuarioService _usuarioService;
+        private readonly IConfiguration _config;
 
-        public AccountController(IUsuarioService usuarioService)
+        public AccountController(IConfiguration config)
         {
-            _usuarioService = usuarioService;
+            _config = config;
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
-            return View();
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Platos");
+
+            ViewData["ReturnUrl"] = returnUrl;
+            return View(new LoginViewModel());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(string usuario, string password)
+        public async Task<IActionResult> Login(LoginViewModel modelo, string returnUrl = null)
         {
-            var esValido = await _usuarioService.LoginAsync(usuario, password);
+            ViewData["ReturnUrl"] = returnUrl;
 
-            if (!esValido)
+            if (!ModelState.IsValid)
+                return View(modelo);
+
+            // Usuario y contraseña del administrador (están en appsettings.json)
+            var usuarioValido = _config["Admin:Usuario"];
+            var claveValida = _config["Admin:Clave"];
+
+            if (modelo.Usuario != usuarioValido || modelo.Clave != claveValida)
             {
-                ViewBag.Error = "Usuario o contraseña incorrectos.";
-                return View();
+                ModelState.AddModelError(string.Empty, "Usuario o contraseña incorrectos");
+                return View(modelo);
             }
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, usuario)
+                new Claim(ClaimTypes.Name, modelo.Usuario),
+                new Claim(ClaimTypes.Role, "Administrador")
             };
 
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
+            var identidad = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(identidad));
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            TempData["Exito"] = "Bienvenido al panel de La Tóxica.";
+
+            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                return Redirect(returnUrl);
 
             return RedirectToAction("Index", "Platos");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction(nameof(Login));
+            TempData["Exito"] = "Sesión cerrada correctamente.";
+            return RedirectToAction("Index", "Home");
         }
     }
 }
